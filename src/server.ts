@@ -9,8 +9,12 @@ const app = fastify()
 app.register(PostUser, {prefix: "/user"})
 app.register(PutUser, {prefix: "/user"})
 app.register(GetUser, {prefix: "/user"})
-app.register(DeleteUser, {prefix: "/user"})
+app.register(DeleteUser, { prefix: "/user" })
+
+var port;
+if (process.env.PORT != undefined) port = process.env.PORT
+else port = 3333
 
 app
-.listen({port: 3000})
-.then(() => console.log("Server started at port 3000"))
+.listen({port, host: "0.0.0.0"})
+.then(() => console.log("Server started at port ", port))
