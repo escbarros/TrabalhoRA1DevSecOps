@@ -10,3 +10,4 @@ jobs:
       volumes: -my-app:/app
     steps:
       - name: Testes
+        run: echo "AAA"
