@@ -8,15 +8,15 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker-compose up'
-                sh 'docker-compose ps'
+                sh 'docker run --name db -e POSTGRES_PASSWORD=1234 -p 5432:5432 -d postgres'
+                sh 'docker ps'
             }
         }
     }
     post{
       always{
-        sh 'docker-compose down --remove-orphans -v'
-        sh 'docker-compose ps'
+        sh 'docker rm -f db'
+        sh 'docker ps'
       }
     }
 }
