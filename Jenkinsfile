@@ -6,6 +6,7 @@ pipeline {
             sh 'docker --version'
             sh 'node --version'
             sh 'npm --version'
+            sh 'docker ps'
           }
         }
         stage('Build') {
