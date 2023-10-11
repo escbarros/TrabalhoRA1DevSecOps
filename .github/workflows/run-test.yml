@@ -21,7 +21,7 @@ jobs:
       - name: Construir e Executar Docker Compose
         run: |
           docker-compose up -d --build
-        working-directory: ../../ # ajuste o caminho para o seu arquivo docker-compose.yml
+        working-directory: ./ # ajuste o caminho para o seu arquivo docker-compose.yml
 
       - name: Verificar status dos containers
         run: |
