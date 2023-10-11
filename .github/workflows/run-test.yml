@@ -3,9 +3,13 @@ name: Docker Compose Workflow
 on:
   push:
     branches:
-      - main # você pode ajustar a branch aqui
+      - main 
 
 jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/dependency-review-action
   build:
     runs-on: ubuntu-latest
     steps:
@@ -21,7 +25,7 @@ jobs:
       - name: Construir e Executar Docker Compose
         run: |
           docker-compose up -d --build
-        working-directory: ./ # ajuste o caminho para o seu arquivo docker-compose.yml
+        working-directory: ./
 
       - name: Verificar status dos containers
         run: |
