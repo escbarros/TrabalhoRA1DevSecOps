@@ -1,0 +1,13 @@
+name: Run test suite
+on: [push]
+
+jobs:
+  run-tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    container: 
+      image: postgres:latest
+      volumes: -my-app:/app
+    steps:
+      -name: Teste
+        run: echo 'test'
