@@ -9,5 +9,7 @@ jobs:
       image: postgres:latest
       volumes: -my-app:/app
     steps:
-      - name: Teste
-        run: echo 'test'
+      - name: Testes
+        run: |
+          cd /app
+          yarn test
