@@ -3,7 +3,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'node --version'
+                echo 'Building..'
+                sh 'docker-compose up -d --no-color --wait'
+                sh 'docker-compose ps'
             }
         }
         stage('Test') {
@@ -16,5 +18,11 @@ pipeline {
                 echo 'Deploying....'
             }
         }
+    }
+    post{
+      always{
+        sh 'docker-compose down --remove-orphans -v'
+        sh 'docker-compose ps'
+      }
     }
 }
