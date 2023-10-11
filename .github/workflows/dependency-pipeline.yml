@@ -8,3 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/dependency-review-action@v1
+
+  dast:
+    runs-on: ubuntu-latest
+    name: DAST
+    steps:
+      - uses: owasp/zap-action@v3
