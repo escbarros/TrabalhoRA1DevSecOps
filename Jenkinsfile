@@ -4,12 +4,16 @@ pipeline {
         stage("Version"){
           steps {
             sh 'docker --version'
+            sh 'node --version'
+            sh 'npm --version'
           }
         }
         stage('Build') {
             steps {
-                sh 'docker run --name db -e POSTGRES_PASSWORD=1234 -p 5432:5432 -d postgres'
-                sh 'docker ps'
+                sh 'npm install'
+                sh 'npx prisma generate'
+                sh 'npx prisma migrate dev --name init'
+                sh 'npm run dev'
             }
         }
     }
