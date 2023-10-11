@@ -1,20 +1,25 @@
 pipeline {
-    agent any
+    agent {
+      docker{
+        image 'node:16-alpine'
+      }
+    }
     stages {
         stage('Info') {
             steps {
-                sh '''
-                  docker info
-                  docker version
-                  docker compose version
-                '''
+                // sh '''
+                //   docker info
+                //   docker version
+                //   docker compose version
+                // '''
+                sh 'node --version'
             }
         }
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh 'docker-compose up -d --no-color --wait'
-                sh 'docker-compose ps'
+                // sh 'docker-compose up -d --no-color --wait'
+                // sh 'docker-compose ps'
             }
         }
         stage('Test') {
