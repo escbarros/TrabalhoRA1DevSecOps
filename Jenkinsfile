@@ -3,9 +3,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
-                sh 'docker-compose up -d --no-color --wait'
-                sh 'docker-compose ps'
+                sh '''
+                  docker info
+                  docker version
+                  docker compose version
+                '''
             }
         }
         stage('Test') {
