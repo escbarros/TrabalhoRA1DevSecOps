@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                docker-compose up
+                sh docker-compose up
                 echo 'Deploying....'
             }
         }
