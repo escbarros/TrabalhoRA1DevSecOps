@@ -9,7 +9,7 @@ jobs:
   dependency-review:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/dependency-review@v3
+      - uses: actions/dependency-review-action@v1
   build:
     runs-on: ubuntu-latest
     steps:
