@@ -21,8 +21,20 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build application
-        run: npm run build
+      - name: Configurar Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install docker-compose
+          docker-compose --version
+
+      - name: Construir e Executar Docker Compose
+        run: |
+          docker-compose up -d --build
+        working-directory: ./
+
+      - name: Verificar status dos containers
+        run: |
+          docker ps -a
 
   static-analysis:
     runs-on: ubuntu-latest
