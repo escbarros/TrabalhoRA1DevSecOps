@@ -1,3 +1,0 @@
-docker run -d --name jenkins_SEUNOME -u 0 -p PORTA_HOST:8080 -v /home/$USER/Documents/jenkins_home:/var/jenkins_home --restart=always jenkins/jenkins
-
-docker run -d --name jenkins_Barros -u 0 -p 8081:8080 -v /home/$USER/Documents/jenkins_home:/var/jenkins_home --restart=always jenkins/jenkins

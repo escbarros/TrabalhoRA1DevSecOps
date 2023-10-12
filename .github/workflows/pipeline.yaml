@@ -1,0 +1,69 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
+
+  static-analysis:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run static analysis
+        run: semgrep -c .
+
+  dynamic-analysis:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run dynamic analysis
+        run: zap -s scan.json
+
+  dependency-analysis:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run dependency analysis
+        run: dependabot audit
+
+  deploy:
+    needs: [static-analysis, dynamic-analysis, dependency-analysis]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy application
+        run: npm run deploy
