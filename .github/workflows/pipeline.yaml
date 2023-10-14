@@ -1,0 +1,43 @@
+name: Pipeline
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v2
+
+      - name: Análise de Dependências
+        uses: actions/dependency-review-action@v3
+
+      - name: Configurar Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install docker-compose
+          docker-compose --version
+
+      - name: Construir e Executar Docker Compose
+        run: |
+          docker-compose up -d --build
+        working-directory: ./
+
+      - name: Verificar status dos containers
+        run: |
+          docker ps -a
+
+      - name: Autenticacao no dockerhub
+        uses: docker/login-action@v3.0.0
+        with:
+          username: ${{secrets.DOCKERHUB_USER}}
+          password: ${{secrets.DOCKERHUB_PWD}}
+
+      - name: Construcao da Imagem do Docker
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: |
+            eduardoscb/api-devsecops:${{github.run_number}}
+            eduardoscb/api-devsecops:latest
