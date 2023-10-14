@@ -1,25 +1,15 @@
-name: CI/CD Pipeline
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+name: Pipeline
+on: [pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout código
+        uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-
-      - name: Install dependencies
-        run: npm install
+      - name: Análise de Dependências
+        uses: actions/dependency-review-action@v3
 
       - name: Configurar Docker Compose
         run: |
@@ -36,46 +26,18 @@ jobs:
         run: |
           docker ps -a
 
-  static-analysis:
-    runs-on: ubuntu-latest
+      - name: Autenticacao no dockerhub
+        uses: docker/login-action@v3.0.0
+        with:
+          username: ${{secrets.DOCKERHUB_USER}}
+          password: ${{secrets.DOCKERHUB_PWD}}
 
-    needs: build
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Run static analysis
-        run: semgrep -c .
-
-  dynamic-analysis:
-    runs-on: ubuntu-latest
-
-    needs: build
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Run dynamic analysis
-        run: zap -s scan.json
-
-  dependency-analysis:
-    runs-on: ubuntu-latest
-
-    needs: build
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Run dependency analysis
-        run: dependabot audit
-
-  deploy:
-    needs: [static-analysis, dynamic-analysis, dependency-analysis]
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Deploy application
-        run: npm run deploy
+      - name: Construcao da Imagem do Docker
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: |
+            eduardoscb/api-devsecops:${{github.run_number}}
+            eduardoscb/api-devsecops:latest
