@@ -31,11 +31,6 @@ jobs:
       - name: Verificar status dos containers
         run: |
           docker ps -a
-          
-      - name: Dast
-        uses: stackhawk/hawkscan-action@v2.1.2
-        with:
-          apiKey: ${{ secrets.HAWK_API_KEY }}
 
       - name: Dast
         uses: stackhawk/hawkscan-action@v2.1.2
