@@ -11,6 +11,12 @@ jobs:
       - name: Análise de Dependências
         uses: actions/dependency-review-action@v3
 
+      - name: Sast
+        uses: AppThreat/sast-scan-action@1.0.2
+        with:
+          src: .
+          type: nodejs
+
       - name: Configurar Docker Compose
         run: |
           sudo apt-get update
