@@ -1,0 +1,8 @@
+# -- stackhawk configuration for DevSecOpsPipeline --
+app:
+  # -- An applicationId obtained from the StackHawk platform. --
+  applicationId: 1db53339-ff32-4a29-bfcc-e0290e1709a9 # (required)
+  # -- The environment for the applicationId defined in the StackHawk platform. --
+  env: Pre-Production # (required)
+  # -- The url of your application to scan --
+  host: http://localhost:3333 # (required)
