@@ -50,5 +50,5 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            eduardoscb/api-devsecops:${{github.run_number}}
-            eduardoscb/api-devsecops:latest
+            eduardoscb/api-devsecops-eduardo-e-joao:${{github.run_number}}
+            eduardoscb/api-devsecops-eduardo-e-joao:latest
