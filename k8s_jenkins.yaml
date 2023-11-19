@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-api-devsec
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-api-devsec
+  template:
+    metadata:
+      labels:
+        app: kube-api-devsec
+    spec:
+      containers:
+        - name: kube-api-devsec-container
+          image: eduardoscb/api-devsecops-eduardo-e-joao:latest
+          ports:
+            - containerPort: 8080
